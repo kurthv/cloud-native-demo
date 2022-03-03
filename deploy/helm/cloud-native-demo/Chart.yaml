@@ -1,0 +1,29 @@
+apiVersion: v2
+name: cloud-native-demo
+description: An application to demo the power of cloud native application design
+
+type: application
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+# Versions are expected to follow Semantic Versioning (https://semver.org/)
+version: 0.1.0
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application. Versions are not expected to
+# follow Semantic Versioning. They should reflect the version the application is using.
+# It is recommended to use it with quotes.
+appVersion: "0.1.0"
+
+dependencies:
+  - name: loki-stack
+    # use loki-stack as it includes grafana, prometheus and loki itself in a neat package
+    version: 2.6.1
+    repository: https://grafana.github.io/helm-charts
+  - name: emojivoto
+    version: 0.1.0
+    # unfortunately there is no public helm chart for emojivoto, so I have to create a new one.
+    repository: file://charts/emojivoto
+  - name: linkerd2
+    version: 2.11
+    repository: https://helm.linkerd.io/stable

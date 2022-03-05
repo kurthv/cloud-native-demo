@@ -24,23 +24,9 @@ jobs:
       - name: Set up chart-testing 
         uses: helm/chart-testing-action@v2.2.0
 
-      #- name: Run chart-testing (list-changed)
-      #  id: list-changed
-      #  run: |
-      #    changed=$(ct list-changed --chart-dirs deploy/helm/cloud-native-demo)
-      #    if [[ -n "$changed" ]]; then
-      #      echo "::set-output name=changed::true"
-      #    fi
-
       - name: Run chart-testing (lint)
-        #id: ct-lint
-        #  ct lint \
-        #    --charts /home/runner/work/cloud-native-demo/cloud-native-demo/deploy/helm/cloud-native-demo \
-        #    --chart-repos grafana=https://grafana.github.io/helm-charts \
-		    #    --chart-repos linkerd=https://helm.linkerd.io/stable \
-		    #    --validate-maintainers=false
         run: ct lint --charts /home/runner/work/cloud-native-demo/cloud-native-demo/deploy/helm/cloud-native-demo --chart-repos grafana=https://grafana.github.io/helm-charts --chart-repos linkerd=https://helm.linkerd.io/stable --validate-maintainers=false
-            
+        id: ct-lint
 
       - name: Create kind cluster
         uses: helm/kind-action@v1.2.0

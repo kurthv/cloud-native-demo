@@ -33,13 +33,13 @@ jobs:
       #    fi
 
       - name: Run chart-testing (lint)
-        id: ct-lint
-        run: |
-          ct lint \
-            --charts /home/runner/work/cloud-native-demo/cloud-native-demo/deploy/helm/cloud-native-demo \
-            --chart-repos grafana=https://grafana.github.io/helm-charts \
-		        --chart-repos linkerd=https://helm.linkerd.io/stable \
-		        --validate-maintainers=false
+        #id: ct-lint
+        #  ct lint \
+        #    --charts /home/runner/work/cloud-native-demo/cloud-native-demo/deploy/helm/cloud-native-demo \
+        #    --chart-repos grafana=https://grafana.github.io/helm-charts \
+		    #    --chart-repos linkerd=https://helm.linkerd.io/stable \
+		    #    --validate-maintainers=false
+        run: ct lint --charts /home/runner/work/cloud-native-demo/cloud-native-demo/deploy/helm/cloud-native-demo --chart-repos grafana=https://grafana.github.io/helm-charts --chart-repos linkerd=https://helm.linkerd.io/stable --validate-maintainers=false
             
 
       - name: Create kind cluster

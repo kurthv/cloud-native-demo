@@ -19,6 +19,13 @@ spec:
         app: emoji-svc
         version: v11
     spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "emojivoto.serviceAccountNameEmoji" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
       - env:
         - name: GRPC_PORT
@@ -35,7 +42,6 @@ spec:
         resources:
           requests:
             cpu: 100m
-      serviceAccountName: emoji
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -62,7 +68,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "emojivoto.serviceAccountName" . }}
+      serviceAccountName: {{ include "emojivoto.serviceAccountNameVote" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -102,7 +108,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "emojivoto.serviceAccountName" . }}
+      serviceAccountName: {{ include "emojivoto.serviceAccountNameVote" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -148,7 +154,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "emojivoto.serviceAccountName" . }}
+      serviceAccountName: {{ include "emojivoto.serviceAccountNameWeb" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:

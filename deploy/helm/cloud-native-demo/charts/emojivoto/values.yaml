@@ -14,8 +14,8 @@ serviceAccount:
   annotations: {}
   # The names of the service accounts to use.
   emojiName: emojivoto-emoji
-  voteName:  emojivoto-vote
-  webName:   emojivoto-web
+  voteName: emojivoto-vote
+  webName: emojivoto-web
 
 podSecurityContext: {}
   # fsGroup: 2000
@@ -28,7 +28,7 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-#----------------------------------------------
+# ----------------------------------------------
 # delete below this line
 
 nameOverride: ""

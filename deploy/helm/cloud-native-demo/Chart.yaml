@@ -5,8 +5,7 @@ description: An application to demo the power of cloud native application design
 type: application
 
 maintainers:
-  - name: Lutz Behnke
-    email: lutz.behnke@gmx.de
+  - name: "cypherfox"
 
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.

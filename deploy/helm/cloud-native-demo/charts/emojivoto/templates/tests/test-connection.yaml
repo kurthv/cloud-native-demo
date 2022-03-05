@@ -11,5 +11,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "emojivoto.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "emojivoto.fullname" . }}-web-svc:80']
   restartPolicy: Never

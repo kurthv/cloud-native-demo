@@ -3,8 +3,7 @@ name: emojivoto
 description: A Helm chart for Kubernetes
 
 maintainers:
-  - name: Lutz Behnke
-    email: lutz.behnke@gmx.de
+  - name: "cypherfox"
 
 # A chart can be either an 'application' or a 'library' chart.
 #

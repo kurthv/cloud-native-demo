@@ -34,7 +34,7 @@ jobs:
 
       - name: Run chart-testing (lint)
         id: ct-lint
-        run: | 
+        run: |
           ct lint \
             --charts /home/runner/work/cloud-native-demo/cloud-native-demo/deploy/helm/cloud-native-demo \
             --chart-repos grafana=https://grafana.github.io/helm-charts \

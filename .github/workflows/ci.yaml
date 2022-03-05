@@ -27,13 +27,13 @@ jobs:
       #- name: Run chart-testing (list-changed)
       #  id: list-changed
       #  run: |
-      #    changed=$(ct list-changed --chart-dirs deploy/helm)
+      #    changed=$(ct list-changed --chart-dirs deploy/helm/cloud-native-demo)
       #    if [[ -n "$changed" ]]; then
       #      echo "::set-output name=changed::true"
       #    fi
 
       - name: Run chart-testing (lint)
-        run: ct lint --chart-dirs deploy/helm
+        run: ct lint --chart-dirs deploy/helm/cloud-native-demo
 
       - name: Create kind cluster
         uses: helm/kind-action@v1.2.0

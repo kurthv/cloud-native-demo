@@ -1,9 +1,6 @@
 name: Lint and Test Charts
 
-on:
-  pull_request:
-    paths:
-      - 'deploy/helm/**'
+on: [push]
 
 jobs:
   lint-chart:

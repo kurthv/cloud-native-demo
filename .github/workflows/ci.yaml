@@ -33,6 +33,7 @@ jobs:
       #    fi
 
       - name: Run chart-testing (lint)
+        id: ct-lint
         run: | 
           ct lint \
             --charts /home/runner/work/cloud-native-demo/cloud-native-demo/deploy/helm/cloud-native-demo \

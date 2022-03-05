@@ -51,12 +51,29 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
-Create the name of the service account to use
+Create the names of the service accounts to use
 */}}
-{{- define "emojivoto.serviceAccountName" -}}
+
+{{- define "emojivoto.serviceAccountNameEmoji" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "emojivoto.fullname" .) .Values.serviceAccount.name }}
+{{- .Values.serviceAccount.emojiName }}
 {{- else }}
-{{- default "default" .Values.serviceAccount.name }}
+{{- default "default" .Values.serviceAccount.emojiName }}
+{{- end }}
+{{- end }}
+
+{{- define "emojivoto.serviceAccountNameVote" -}}
+{{- if .Values.serviceAccount.create }}
+{{- .Values.serviceAccount.voteName }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.voteName }}
+{{- end }}
+{{- end }}
+
+{{- define "emojivoto.serviceAccountNameWeb" -}}
+{{- if .Values.serviceAccount.create }}
+{{- .Values.serviceAccount.webName }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.webName }}
 {{- end }}
 {{- end }}

@@ -1,29 +1,21 @@
 # Default values for emojivoto.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
 
-replicaCount: 1
+namespace:
+  name: emojivoto
+  create: false
 
-image:
-  repository: nginx
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
 
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
 
 serviceAccount:
-  # Specifies whether a service account should be created
+  # Specifies whether a set of service accounts should be created. Otherwise "default" is used.
   create: true
   # Annotations to add to the service account
   annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
-
-podAnnotations: {}
+  # The names of the service accounts to use.
+  emojiName: emojivoto-emoji
+  voteName:  emojivoto-vote
+  webName:   emojivoto-web
 
 podSecurityContext: {}
   # fsGroup: 2000
@@ -36,9 +28,13 @@ securityContext: {}
   # runAsNonRoot: true
   # runAsUser: 1000
 
-service:
-  type: ClusterIP
-  port: 80
+#----------------------------------------------
+# delete below this line
+
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
 
 ingress:
   enabled: false
@@ -67,16 +63,3 @@ resources: {}
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}

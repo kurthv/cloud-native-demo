@@ -33,7 +33,10 @@ jobs:
       #    fi
 
       - name: Run chart-testing (lint)
-        run: ct lint --charts /home/runner/work/cloud-native-demo/cloud-native-demo/deploy/helm/cloud-native-demo
+        run: | 
+          ct lint \
+            --charts /home/runner/work/cloud-native-demo/cloud-native-demo/deploy/helm/cloud-native-demo
+            --charts /home/runner/work/cloud-native-demo/cloud-native-demo/deploy/helm/cloud-native-demo/charts/emojivoto
 
       - name: Create kind cluster
         uses: helm/kind-action@v1.2.0

@@ -33,7 +33,7 @@ jobs:
         #if: steps.list-changed.outputs.changed == 'true'
 
       - name: Run chart-testing (install)
-        run: ct install
+        run: ct install --charts /home/runner/work/cloud-native-demo/cloud-native-demo/deploy/helm/cloud-native-demo --chart-repos grafana=https://grafana.github.io/helm-charts --chart-repos linkerd=https://helm.linkerd.io/stable --validate-maintainers=false
 
   kubeval-chart:
     runs-on: ubuntu-latest

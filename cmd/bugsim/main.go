@@ -11,8 +11,6 @@ import (
 	"net/http"
 	"os"
 	"regexp"
-
-	"github.com/cyphefox/cloud-native-demo/pkg/k8s"
 )
 
 type Page struct {
@@ -56,7 +54,7 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 
 func rootPage(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, fmt.Sprintf("Hello, Bug from %s \n", r.RemoteAddr))
-	io.WriteString(w, fmt.Sprintf("Current Number of Pods: %i \n", k8s.GetPods().length()))
+	// io.WriteString(w, fmt.Sprintf("Current Number of Pods: %i \n", k8s.GetPods().length()))
 }
 
 func main() {

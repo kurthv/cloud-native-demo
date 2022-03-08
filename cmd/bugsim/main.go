@@ -11,6 +11,8 @@ import (
 	"net/http"
 	"os"
 	"regexp"
+
+	"github.com/cypherfox/cloud-native-demo/pkg/k8s"
 )
 
 type Page struct {
@@ -19,6 +21,7 @@ type Page struct {
 }
 
 var validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
+var k8sClient, err := k8s.NewKubeClient()
 
 func (p *Page) save() error {
 	filename := p.Title + ".txt"
@@ -34,12 +37,6 @@ func loadPage(title string) (*Page, error) {
 	return &Page{Title: title, Body: body}, nil
 }
 
-// func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
-// 	err := templates.ExecuteTemplate(w, tmpl+".html", p)
-// 	if err != nil {
-// 		http.Error(w, err.Error(), http.StatusInternalServerError)
-// 	}
-// }
 
 func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -55,6 +52,13 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 func rootPage(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, fmt.Sprintf("Hello, Bug from %s \n", r.RemoteAddr))
 	// io.WriteString(w, fmt.Sprintf("Current Number of Pods: %i \n", k8s.GetPods().length()))
+
+	pods, err := k8sClient.GetPods()
+
+	for _, pod := pods.Items {
+
+		fmt.Printf("%s",pods)
+	}
 }
 
 func main() {

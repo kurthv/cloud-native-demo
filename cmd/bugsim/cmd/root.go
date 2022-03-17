@@ -5,8 +5,6 @@ This file is part of {{ .appName }}
 package cmd
 
 import (
-	"os"
-
 	"github.com/spf13/cobra"
 )
 
@@ -14,7 +12,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "bugsim",
 	Short: "Provide a web-app to allow users to simulate bugs in a K8s cluster",
-	Long: `bugsim allows users of a website to terminate pods in a kubernetes cluster, in order to
+	Long: `bugsim allows users of a website to terminate pods in a Kubernetes cluster, in order to
 	simulate a fault in the code executed by the pod.
 	
 	bugsim will ensure that only a certain amount of pods in a deployment are available for
@@ -23,11 +21,8 @@ var rootCmd = &cobra.Command{
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
-		os.Exit(1)
-	}
+func Execute() error {
+	return rootCmd.Execute()
 }
 
 func init() {

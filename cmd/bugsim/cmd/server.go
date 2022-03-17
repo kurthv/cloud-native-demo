@@ -25,10 +25,15 @@ var serverCmd = &cobra.Command{
 	Use:   "server",
 	Short: "run the web listener",
 	Long:  `run the web listener`,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		fmt.Println("server called")
 
-		doServer()
+		err := doServer()
+		if err != nil {
+			return err
+		}
+		fmt.Println("server ended")
+		return nil
 	},
 }
 
@@ -38,19 +43,23 @@ func init() {
 	serverCmd.Flags().Int16VarP(&Port, "port", "p", 80, "port on which to listen for web requests")
 }
 
-func doServer() {
+func doServer() error {
 	var err error
 
+	fmt.Println("Setting up Kubernetes Client")
 	k8sClient, err = k8s.NewKubeClient()
 	if err != nil {
 		fmt.Printf("Initializing Kubernetes client failed: %s", err.Error())
 		os.Exit(1)
 	}
 
+	fmt.Println("Setting up pages")
 	http.HandleFunc("/", rootPage)
 
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	fmt.Printf("Starting to serve on port %d\n", Port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", Port), nil))
 
+	return nil
 }
 
 func rootPage(w http.ResponseWriter, r *http.Request) {

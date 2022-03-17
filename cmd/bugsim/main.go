@@ -4,8 +4,17 @@ This file is part of the cloud-native demo
 */
 package main
 
-import "github.com/cypherfox/cloud-native-demo/cmd/bugsim/cmd"
+import (
+	"fmt"
+	"os"
+
+	"github.com/cypherfox/cloud-native-demo/cmd/bugsim/cmd"
+)
 
 func main() {
-	cmd.Execute()
+	err := cmd.Execute()
+	if err != nil {
+		fmt.Printf("Command failed: %s", err)
+		os.Exit(1)
+	}
 }

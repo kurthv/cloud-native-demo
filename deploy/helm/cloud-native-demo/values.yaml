@@ -80,3 +80,7 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+
+emojivoto:
+  namespace: cloud-native-demo

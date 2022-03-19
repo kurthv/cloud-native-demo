@@ -21,7 +21,17 @@ helm-package:
 	make -C deploy/helm package
 
 helm-deploy:
-	helm upgrade cloud-native-demo ./deploy/helm/cloud-native-demo --install --namespace cloud-native-demo --create-namespace --devel
+	step certificate create root.linkerd.cluster.local ca.crt ca.key --profile root-ca \
+       --no-password --insecure
+	step certificate create identity.linkerd.cluster.local issuer.crt issuer.key \
+       --profile intermediate-ca --not-after 8760h --no-password --insecure \
+       --ca ca.crt --ca-key ca.key
+	helm upgrade cloud-native-demo ./deploy/helm/cloud-native-demo \
+      --install --namespace cloud-native-demo --create-namespace --devel \
+      --set-file linkerd2.identityTrustAnchorsPEM=ca.crt \
+      --set-file linkerd2.identity.issuer.tls.crtPEM=issuer.crt \
+      --set-file linkerd2.identity.issuer.tls.keyPEM=issuer.key \
+	  --set emojivoto.namespace=cloud-native-demo
 
 kind-load: docker-image
 	docker tag github.com/cypherfox/cloud-native-demo/bugsim:$(VERSION) localhost:5001/bugsim:$(VERSION)

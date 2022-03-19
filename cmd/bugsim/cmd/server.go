@@ -64,13 +64,13 @@ func doServer() error {
 
 func rootPage(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, fmt.Sprintf("Hello, Bug from %s \n", r.RemoteAddr))
-	// io.WriteString(w, fmt.Sprintf("Current Number of Pods: %i \n", k8s.GetPods().length()))
 
-	pods, err := k8sClient.GetPods()
+	pods, err := k8sClient.GetPods("default")
 	if err != nil {
-		fmt.Printf("reading pods failed: %s", err.Error())
+		fmt.Printf("reading pods failed: %s\n", err.Error())
 		return
 	}
+	io.WriteString(w, fmt.Sprintf("Current Number of Pods: %i \n", len(pods.Items)))
 
 	for _, pod := range pods.Items {
 

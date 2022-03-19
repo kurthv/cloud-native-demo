@@ -1,4 +1,4 @@
-VERSION   := 0.0.4-dev13
+VERSION   := 0.0.4-dev14
 TIME      := $(shell date)
 GO_MODULE := github.com/cypherfox/cloud-native-demo
 LDFLAGS   := "-extldflags=-static -X '$(GO_MODULE)/pkg/version.BuildTime=$(TIME)' -X '$(GO_MODULE)/pkg/version.BuildVersion=$(VERSION)'"
@@ -16,6 +16,12 @@ helm-lint:
 	    --chart-repos grafana=https://grafana.github.io/helm-charts \
 		--chart-repos linkerd=https://helm.linkerd.io/stable \
 		--debug --validate-maintainers=false
+
+helm-package:
+	make -C deploy/helm package
+
+helm-deploy:
+	helm upgrade cloud-native-demo ./deploy/helm/cloud-native-demo --install --namespace cloud-native-demo --create-namespace --devel
 
 kind-load: docker-image
 	docker tag github.com/cypherfox/cloud-native-demo/bugsim:$(VERSION) localhost:5001/bugsim:$(VERSION)

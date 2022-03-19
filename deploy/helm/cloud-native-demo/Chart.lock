@@ -3,10 +3,10 @@ dependencies:
   repository: https://grafana.github.io/helm-charts
   version: 2.6.1
 - name: emojivoto
-  repository: file://charts/emojivoto
+  repository: file://../emojivoto
   version: 0.1.0
 - name: linkerd2
   repository: https://helm.linkerd.io/stable
   version: 2.11.1
-digest: sha256:6315b8f22ca9d629ffb6636d7e14ca7734bfa6febcdbec8e56f1cba43f482e60
-generated: "2022-03-05T15:00:41.525593567Z"
+digest: sha256:82ad9a1897e718e3c5962b01cc60bca45eb58ed10a0b3bdc43076cc75655de11
+generated: "2022-03-19T19:15:37.760934691+01:00"

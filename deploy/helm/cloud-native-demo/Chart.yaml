@@ -26,7 +26,7 @@ dependencies:
   - name: emojivoto
     version: 0.1.0
     # unfortunately there is no public helm chart for emojivoto, so I have to create a new one.
-    repository: file://charts/emojivoto
+    repository: file://../emojivoto
   - name: linkerd2
     version: 2.11.1
     repository: https://helm.linkerd.io/stable

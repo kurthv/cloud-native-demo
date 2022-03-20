@@ -83,4 +83,5 @@ affinity: {}
 
 
 emojivoto:
-  namespace: cloud-native-demo
+  namespace:
+    name: cloud-native-demo

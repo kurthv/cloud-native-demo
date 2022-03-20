@@ -1,0 +1,39 @@
+linkerd2:
+  identityTrustAnchorsPEM: |
+    -----BEGIN CERTIFICATE-----
+    MIIBtTCCAVqgAwIBAgIQYXmVGC3C773LDFg0soSeozAKBggqhkjOPQQDAjAlMSMw
+    IQYDVQQDExpyb290LmxpbmtlcmQuY2x1c3Rlci5sb2NhbDAeFw0yMjAzMjAxMDE1
+    NTJaFw0zMjAzMTcxMDE1NTJaMCUxIzAhBgNVBAMTGnJvb3QubGlua2VyZC5jbHVz
+    dGVyLmxvY2FsMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE6eTvQkwh7Zi+gMSE
+    gWn7pl7Hp6sUt6Ai0AwSebxm4n2KBaRHk0nvCvJgmll4EVfITS2KJ5/7FvANtxSC
+    1hPRI6NsMGowDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8CAQEwHQYD
+    VR0OBBYEFIyKp94k38/DWTEW/+4sQxfZzbnmMCUGA1UdEQQeMByCGnJvb3QubGlu
+    a2VyZC5jbHVzdGVyLmxvY2FsMAoGCCqGSM49BAMCA0kAMEYCIQDtlzQDOq+X+2zN
+    E0lcqF5Y27aPhljlqQEk80fHJvVm7gIhAMEe5SZ1IqIwunX6/c3jkSXcquyuZb+9
+    2dwcEospkCv9
+    -----END CERTIFICATE-----
+
+  identity:
+    issuer:
+      tls:
+        crtPEM: |
+          -----BEGIN CERTIFICATE-----
+          MIIB3zCCAYWgAwIBAgIQZyrLa9JD8iiIxjwLF93g/zAKBggqhkjOPQQDAjAlMSMw
+          IQYDVQQDExpyb290LmxpbmtlcmQuY2x1c3Rlci5sb2NhbDAeFw0yMjAzMjAxMDE3
+          MjdaFw0yMzAzMjAxMDE3MjdaMCkxJzAlBgNVBAMTHmlkZW50aXR5LmxpbmtlcmQu
+          Y2x1c3Rlci5sb2NhbDBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABAxK0GCV+kYj
+          VNWn87HWu5vt+g2abtigRuwBHooiXVX3iyjRYC6PnHdac0asSzpiELmGcrxkEJQb
+          nSmcAIfgksCjgZIwgY8wDgYDVR0PAQH/BAQDAgEGMBIGA1UdEwEB/wQIMAYBAf8C
+          AQAwHQYDVR0OBBYEFCJvM++2y1k6rr9MgDwc1ui1gXRQMB8GA1UdIwQYMBaAFIyK
+          p94k38/DWTEW/+4sQxfZzbnmMCkGA1UdEQQiMCCCHmlkZW50aXR5LmxpbmtlcmQu
+          Y2x1c3Rlci5sb2NhbDAKBggqhkjOPQQDAgNIADBFAiEA6jeBAbAqZxFjpsl0n02w
+          6jYOlKhW+T3c9IhiJLwHE9YCIDqmLhSGCs+EWQ1pgF8yHXycXrtF5pVhSTqnuWnk
+          u4wE
+          -----END CERTIFICATE-----
+
+        keyPEM: |
+          -----BEGIN EC PRIVATE KEY-----
+          MHcCAQEEIPBJbIf11ptSv/WgJHsD6ar6QvbZHLA+HoG4r752FUUJoAoGCCqGSM49
+          AwEHoUQDQgAEDErQYJX6RiNU1afzsda7m+36DZpu2KBG7AEeiiJdVfeLKNFgLo+c
+          d1pzRqxLOmIQuYZyvGQQlBudKZwAh+CSwA==
+          -----END EC PRIVATE KEY-----

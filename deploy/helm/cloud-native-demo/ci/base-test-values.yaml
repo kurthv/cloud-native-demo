@@ -1,3 +1,8 @@
+
+emojivoto:
+  namespace:
+    create: true
+
 linkerd2:
   identityTrustAnchorsPEM: |
     -----BEGIN CERTIFICATE-----

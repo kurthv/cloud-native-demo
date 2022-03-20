@@ -25,7 +25,7 @@ jobs:
         uses: helm/chart-testing-action@v2.2.0
 
       - name: Run chart-testing (lint)
-        run: ct lint --charts /home/runner/work/cloud-native-demo/cloud-native-demo/deploy/helm/cloud-native-demo --chart-repos grafana=https://grafana.github.io/helm-charts --chart-repos linkerd=https://helm.linkerd.io/stable
+        run: ct lint --charts /home/runner/work/cloud-native-demo/cloud-native-demo/deploy/helm/cloud-native-demo --chart-repos grafana=https://grafana.github.io/helm-charts --chart-repos linkerd=https://helm.linkerd.io/stable --namespace cloud-native-demo
         id: ct-lint
 
       - name: Create kind cluster

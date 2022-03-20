@@ -32,8 +32,8 @@ jobs:
         uses: helm/kind-action@v1.2.0
         #if: steps.list-changed.outputs.changed == 'true'
 
-      - name: Run chart-testing (install)
-        run: ct install --charts /home/runner/work/cloud-native-demo/cloud-native-demo/deploy/helm/cloud-native-demo --chart-repos grafana=https://grafana.github.io/helm-charts --chart-repos linkerd=https://helm.linkerd.io/stable  --namespace cloud-native-demo
+        #- name: Run chart-testing (install)
+        #  run: ct install --charts /home/runner/work/cloud-native-demo/cloud-native-demo/deploy/helm/cloud-native-demo --chart-repos grafana=https://grafana.github.io/helm-charts --chart-repos linkerd=https://helm.linkerd.io/stable  --namespace cloud-native-demo
 
   kubeval-chart:
     runs-on: ubuntu-latest

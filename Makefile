@@ -1,3 +1,8 @@
+# Directory, where all required tools are located (absolute path required)
+BUILD_PATH ?= $(shell pwd)
+TOOLS_DIR  ?= $(shell cd tools 2>/dev/null && pwd)
+
+
 VERSION   := 0.0.4-dev14
 TIME      := $(shell date)
 GO_MODULE := github.com/cypherfox/cloud-native-demo

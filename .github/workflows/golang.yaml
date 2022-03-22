@@ -40,7 +40,7 @@ jobs:
     - name: Run vet & lint
       run: |
         make go-vet
-        make go-lint
+        #make go-lint
     
     # Run testing on the code
     - name: Run testing

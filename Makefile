@@ -34,8 +34,7 @@ helm-deploy:
       --install --namespace cloud-native-demo --create-namespace --devel \
       --set-file linkerd2.identityTrustAnchorsPEM=ca.crt \
       --set-file linkerd2.identity.issuer.tls.crtPEM=issuer.crt \
-      --set-file linkerd2.identity.issuer.tls.keyPEM=issuer.key \
-	  --set emojivoto.namespace=cloud-native-demo
+      --set-file linkerd2.identity.issuer.tls.keyPEM=issuer.key
 
 kind-load: docker-image
 	docker tag github.com/cypherfox/cloud-native-demo/bugsim:$(VERSION) localhost:5001/bugsim:$(VERSION)
@@ -48,4 +47,9 @@ stop-local:
 	kubectl delete deployment bugsim
 	kubectl delete service bugsim
 
-.PHONEY: kind-load docker-image helm-lint
+.PHONEY: kind-load docker-image helm-lint stop-local run-local
+
+
+include helm.mk
+
+

@@ -63,18 +63,31 @@ func doServer() error {
 }
 
 func rootPage(w http.ResponseWriter, r *http.Request) {
-	respPrintf(w, "Hello, Bug from %s \n", r.RemoteAddr)
+	_, err := respPrintf(w, "Hello, Bug from %s \n", r.RemoteAddr)
+	if err != nil {
+		fmt.Printf("cannot write to response: %s", err.Error())
+		return
+	}
 
 	pods, err := k8sClient.GetPods("default")
 	if err != nil {
 		fmt.Printf("reading pods failed: %s\n", err.Error())
 		return
 	}
-	respPrintf(w, "Current Number of Pods: %d \n", len(pods.Items))
+
+	_, err = respPrintf(w, "Current Number of Pods: %d \n", len(pods.Items))
+	if err != nil {
+		fmt.Printf("cannot write to response: %s", err.Error())
+		return
+	}
 
 	for i, pod := range pods.Items {
 
-		respPrintf(w, "Pod %d: %s\n", i, pod.Name)
+		_, err = respPrintf(w, "Pod %d: %s\n", i, pod.Name)
+		if err != nil {
+			fmt.Printf("cannot write to response: %s", err.Error())
+			return
+		}
 
 	}
 }

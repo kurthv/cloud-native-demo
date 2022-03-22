@@ -10,7 +10,7 @@ docker-image: bin/bugsim
 bin/bugsim: cmd/bugsim/main.go pkg/k8s/client.go cmd/bugsim/cmd/root.go cmd/bugsim/cmd/server.go
 	CGO_ENABLED=0 go build -o bin/bugsim -ldflags=$(LDFLAGS) ./cmd/bugsim
 
-helm-lint:
+helm-full-lint:
 	docker run -it --rm  \
 	    --volume $(PWD)/test/data/helm/ct.yaml:/etc/ct/ct.yaml \
 		--volume $(PWD):/data \
@@ -51,5 +51,6 @@ stop-local:
 
 
 include helm.mk
+include go.mk
 
 

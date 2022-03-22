@@ -7,5 +7,4 @@ require (
 	k8s.io/api v0.19.16
 	k8s.io/apimachinery v0.19.16
 	k8s.io/client-go v0.19.16
-	sigs.k8s.io/structured-merge-diff/v4 v4.1.2 // indirect
 )

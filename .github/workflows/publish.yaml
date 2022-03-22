@@ -22,6 +22,7 @@ on:
 env:
   GO_MODULE: github.com/cypherfox/cloud-native-demo
   CHART_DIR: deploy/helm/cloud-native-demo
+  DOCKER_DIR_BUGSIM: ./deploy/docker/bugsim
 
 jobs:
   helm:
@@ -78,7 +79,7 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v2
         with:
-          context: .
+          context: ${{ env.DOCKER_DIR_BUGSIM}}
           file: Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}

@@ -84,6 +84,6 @@ jobs:
           file: ${{ env.DOCKER_DIR_BUGSIM}}/Dockerfile
           build-args: |
             GO_VERSION=1.18.0
-            VERSION=v0.1.0-foo
+            VERSION=${{ github.ref_name }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}

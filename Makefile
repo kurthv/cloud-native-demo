@@ -3,14 +3,15 @@ BUILD_PATH ?= $(shell pwd)
 TOOLS_DIR  ?= $(shell cd tools 2>/dev/null && pwd)
 
 
-VERSION   := 0.0.4-dev14
-TIME      := $(shell date)
-GO_MODULE := github.com/cypherfox/cloud-native-demo
-LDFLAGS   := "-extldflags=-static -X '$(GO_MODULE)/pkg/version.BuildTime=$(TIME)' -X '$(GO_MODULE)/pkg/version.BuildVersion=$(VERSION)'"
+VERSION    := 0.0.4-dev14
+TIME       := $(shell date)
+GO_MODULE  := github.com/cypherfox/cloud-native-demo
+GO_VERSION := 1.18
+LDFLAGS    := "-extldflags=-static -X '$(GO_MODULE)/pkg/version.BuildTime=$(TIME)' -X '$(GO_MODULE)/pkg/version.BuildVersion=$(VERSION)'"
 
 
-docker-image: bin/bugsim
-	make -C deploy/docker/bugsim VERSION=$(VERSION)
+docker-image: 
+	docker build -f deploy/docker/bugsim/Dockerfile --build-arg GO_VERSION=$(GO_VERSION) --build-arg VERSION=$(VERSION) .
 
 bin/bugsim: cmd/bugsim/main.go pkg/k8s/client.go cmd/bugsim/cmd/root.go cmd/bugsim/cmd/server.go
 	CGO_ENABLED=0 go build -o bin/bugsim -ldflags=$(LDFLAGS) ./cmd/bugsim

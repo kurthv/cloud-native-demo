@@ -1,16 +1,22 @@
-VERSION   := 0.0.4-dev14
-TIME      := $(shell date)
-GO_MODULE := github.com/cypherfox/cloud-native-demo
-LDFLAGS   := "-extldflags=-static -X '$(GO_MODULE)/pkg/version.BuildTime=$(TIME)' -X '$(GO_MODULE)/pkg/version.BuildVersion=$(VERSION)'"
+# Directory, where all required tools are located (absolute path required)
+BUILD_PATH ?= $(shell pwd)
+TOOLS_DIR  ?= $(shell cd tools 2>/dev/null && pwd)
 
 
-docker-image: bin/bugsim
-	make -C deploy/docker/bugsim VERSION=$(VERSION)
+VERSION    := 0.0.4-dev14
+TIME       := $(shell date)
+GO_MODULE  := github.com/cypherfox/cloud-native-demo
+GO_VERSION := 1.18
+LDFLAGS    := "-extldflags=-static -X '$(GO_MODULE)/pkg/version.BuildTime=$(TIME)' -X '$(GO_MODULE)/pkg/version.BuildVersion=$(VERSION)'"
+
+
+docker-image: 
+	docker build -f deploy/docker/bugsim/Dockerfile --build-arg GO_VERSION=$(GO_VERSION) --build-arg VERSION=$(VERSION) .
 
 bin/bugsim: cmd/bugsim/main.go pkg/k8s/client.go cmd/bugsim/cmd/root.go cmd/bugsim/cmd/server.go
 	CGO_ENABLED=0 go build -o bin/bugsim -ldflags=$(LDFLAGS) ./cmd/bugsim
 
-helm-lint:
+helm-full-lint:
 	docker run -it --rm  \
 	    --volume $(PWD)/test/data/helm/ct.yaml:/etc/ct/ct.yaml \
 		--volume $(PWD):/data \
@@ -34,8 +40,7 @@ helm-deploy:
       --install --namespace cloud-native-demo --create-namespace --devel \
       --set-file linkerd2.identityTrustAnchorsPEM=ca.crt \
       --set-file linkerd2.identity.issuer.tls.crtPEM=issuer.crt \
-      --set-file linkerd2.identity.issuer.tls.keyPEM=issuer.key \
-	  --set emojivoto.namespace=cloud-native-demo
+      --set-file linkerd2.identity.issuer.tls.keyPEM=issuer.key
 
 kind-load: docker-image
 	docker tag github.com/cypherfox/cloud-native-demo/bugsim:$(VERSION) localhost:5001/bugsim:$(VERSION)
@@ -48,4 +53,10 @@ stop-local:
 	kubectl delete deployment bugsim
 	kubectl delete service bugsim
 
-.PHONEY: kind-load docker-image helm-lint
+.PHONEY: kind-load docker-image helm-lint stop-local run-local
+
+
+include helm.mk
+include go.mk
+
+

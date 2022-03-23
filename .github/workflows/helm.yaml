@@ -35,41 +35,41 @@ jobs:
         #- name: Run chart-testing (install)
         #  run: ct install --charts /home/runner/work/cloud-native-demo/cloud-native-demo/deploy/helm/cloud-native-demo --chart-repos grafana=https://grafana.github.io/helm-charts --chart-repos linkerd=https://helm.linkerd.io/stable  --namespace cloud-native-demo
 
-  kubeval-chart:
-    runs-on: ubuntu-latest
-    needs:
-      - lint-chart
-    strategy:
-      matrix:
-        k8s:
-          - v1.19.8
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: Run kubeval
-        env:
-          KUBERNETES_VERSION: ${{ matrix.k8s }}
-        run: .github/kubeval.sh
+  #kubeval-chart:
+  #  runs-on: ubuntu-latest
+  #  needs:
+  #    - lint-chart
+  #  strategy:
+  #    matrix:
+  #      k8s:
+  #        - v1.19.8
+  #  steps:
+  #    - name: Checkout
+  #      uses: actions/checkout@v1
+  #    - name: Run kubeval
+  #      env:
+  #        KUBERNETES_VERSION: ${{ matrix.k8s }}
+  #      run: .github/kubeval.sh
 
-  install-chart:
-    name: install-chart
-    runs-on: ubuntu-latest
-    needs:
-      - lint-chart
-      - kubeval-chart
-    strategy:
-      matrix:
-        k8s:
-          - v1.19.8
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - name: Create kind ${{ matrix.k8s }} cluster
-        uses: helm/kind-action@main
-        with:
-          node_image: kindest/node:${{ matrix.k8s }}
-      - name: Run chart-testing (install)
-        uses: helm/chart-testing-action@main
-        with:
-          command: install
-          config: .github/ct.yaml
+  #install-chart:
+  #  name: install-chart
+  #  runs-on: ubuntu-latest
+  #  needs:
+  #    - lint-chart
+  #    - kubeval-chart
+  #  strategy:
+  #    matrix:
+  #      k8s:
+  #        - v1.19.8
+  #  steps:
+  #    - name: Checkout
+  #      uses: actions/checkout@v1
+  #    - name: Create kind ${{ matrix.k8s }} cluster
+  #      uses: helm/kind-action@main
+  #      with:
+  #        node_image: kindest/node:${{ matrix.k8s }}
+  #    - name: Run chart-testing (install)
+  #      uses: helm/chart-testing-action@main
+  #      with:
+  #        command: install
+  #        config: .github/ct.yaml

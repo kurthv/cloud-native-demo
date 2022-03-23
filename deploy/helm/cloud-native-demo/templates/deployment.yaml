@@ -34,7 +34,11 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/bugsim"]
-          arguments: ["server"]
+          arguments: 
+            - "server"
+            - "--namespace"
+            - "{{ .Values.target.namespace }}"
+            - "{{ .Values.target.deployment }}"
           ports:
             - name: http
               containerPort: 80

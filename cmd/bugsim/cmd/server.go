@@ -63,9 +63,8 @@ func doServer() error {
 }
 
 func rootPage(w http.ResponseWriter, r *http.Request) {
-	_, err := respPrintf(w, "Hello, Bug from %s \n", r.RemoteAddr)
+	err := respPrintf(w, "Hello, Bug from %s \n", r.RemoteAddr)
 	if err != nil {
-		fmt.Printf("cannot write to response: %s", err.Error())
 		return
 	}
 
@@ -75,23 +74,26 @@ func rootPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err = respPrintf(w, "Current Number of Pods: %d \n", len(pods.Items))
+	err = respPrintf(w, "Current Number of Pods: %d \n", len(pods.Items))
 	if err != nil {
-		fmt.Printf("cannot write to response: %s", err.Error())
 		return
 	}
 
 	for i, pod := range pods.Items {
 
-		_, err = respPrintf(w, "Pod %d: %s\n", i, pod.Name)
+		err = respPrintf(w, "Pod %d: %s\n", i, pod.Name)
 		if err != nil {
-			fmt.Printf("cannot write to response: %s", err.Error())
 			return
 		}
 
 	}
 }
 
-func respPrintf(w http.ResponseWriter, format string, a ...interface{}) (n int, err error) {
-	return io.WriteString(w, fmt.Sprintf(format, a...))
+func respPrintf(w http.ResponseWriter, format string, a ...interface{}) error {
+	_, err := io.WriteString(w, fmt.Sprintf(format, a...))
+	if err != nil {
+		fmt.Printf("cannot write to response: %s", err.Error())
+		return err
+	}
+	return nil
 }

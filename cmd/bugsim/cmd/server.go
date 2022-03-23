@@ -19,6 +19,8 @@ import (
 
 var Port int16
 var k8sClient *k8s.K8sClient
+var Namespace string
+var Deployment string
 
 // serverCmd represents the server command
 var serverCmd = &cobra.Command{
@@ -41,6 +43,8 @@ func init() {
 	rootCmd.AddCommand(serverCmd)
 
 	serverCmd.Flags().Int16VarP(&Port, "port", "p", 80, "port on which to listen for web requests")
+	serverCmd.Flags().StringVarP(&Namespace, "namespace", "n", "default", "Namespace in which to look for pods.")
+	serverCmd.Flags().StringVarP(&Deployment, "deployment", "d", "web", "deployment from which to delete pods.")
 }
 
 func doServer() error {
@@ -68,7 +72,7 @@ func rootPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	pods, err := k8sClient.GetPods("default")
+	pods, err := k8sClient.GetPods(Namespace)
 	if err != nil {
 		fmt.Printf("reading pods failed: %s\n", err.Error())
 		return

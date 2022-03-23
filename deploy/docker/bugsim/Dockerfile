@@ -19,7 +19,7 @@ COPY cmd/ cmd/
 COPY pkg/ pkg/
 
 RUN export TIME=`date` ; \
-    export FULL_LDFLAGS="${LDFLAGS} -X '${GO_MODULE}/pkg/version.BuildTime=${TIME}'"
+    export FULL_LDFLAGS="${LDFLAGS} -X '${GO_MODULE}/pkg/version.BuildTime=${TIME}'" ; \
     CGO_ENABLED=0 go build -o bin/bugsim -ldflags=${LDFLAGS} ./cmd/bugsim
 
 FROM scratch

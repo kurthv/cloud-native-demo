@@ -18,8 +18,8 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: bugsim-sa
-  apiGroup: rbac.authorization.k8s.io
+  apiGroup: ""
 roleRef:
   kind: Role 
   name: pod-worker
-  apiGroup: rbac.authorization.k8s.io
+  apiGroup: ""

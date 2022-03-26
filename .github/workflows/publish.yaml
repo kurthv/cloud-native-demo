@@ -72,7 +72,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}
+          images: ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/bugsim
           tags: |
             type=ref,event=tag
             type=raw,value=0.0.0-{{sha}}

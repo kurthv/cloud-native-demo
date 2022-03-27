@@ -72,7 +72,7 @@ func rootPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	pods, err := k8sClient.GetPods(Namespace)
+	pods, err := k8sClient.GetPods(Namespace, Deployment)
 	if err != nil {
 		fmt.Printf("reading pods failed: %s\n", err.Error())
 		return

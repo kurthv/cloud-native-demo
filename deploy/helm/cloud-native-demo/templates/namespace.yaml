@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    kubernetes.io/metadata.name: {{ .Values.namespace.name }}
+    name: {{ .Values.namespace.name }}
+  annotations:
+    linkerd.io/inject: {{ .Values.linkerd.inject }}
+  name: {{ .Values.namespace.name }}

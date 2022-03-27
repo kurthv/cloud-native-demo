@@ -3,7 +3,7 @@ BUILD_PATH ?= $(shell pwd)
 TOOLS_DIR  ?= $(shell cd tools 2>/dev/null && pwd)
 
 
-VERSION    := 0.0.4-dev14
+VERSION    := 0.0.4-dev15
 TIME       := $(shell date)
 GO_MODULE  := github.com/cypherfox/cloud-native-demo
 GO_VERSION := 1.18
@@ -11,7 +11,7 @@ LDFLAGS    := "-extldflags=-static -X '$(GO_MODULE)/pkg/version.BuildTime=$(TIME
 
 
 docker-image: 
-	docker build -f deploy/docker/bugsim/Dockerfile --build-arg GO_VERSION=$(GO_VERSION) --build-arg VERSION=$(VERSION) .
+	docker build -f deploy/docker/bugsim/Dockerfile --build-arg GO_VERSION=$(GO_VERSION) --build-arg VERSION=$(VERSION) -t localhost:5001/bugsim:$(VERSION) .
 
 bin/bugsim: cmd/bugsim/main.go pkg/k8s/client.go cmd/bugsim/cmd/root.go cmd/bugsim/cmd/server.go
 	CGO_ENABLED=0 go build -o bin/bugsim -ldflags=$(LDFLAGS) ./cmd/bugsim
@@ -43,7 +43,6 @@ helm-deploy:
       --set-file linkerd2.identity.issuer.tls.keyPEM=issuer.key
 
 kind-load: docker-image
-	docker tag github.com/cypherfox/cloud-native-demo/bugsim:$(VERSION) localhost:5001/bugsim:$(VERSION)
 	kind load docker-image localhost:5001/bugsim:$(VERSION)
 
 run-local:

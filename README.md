@@ -24,3 +24,14 @@ helm install cloud-native-demo \
   --set-file linkerd2.identity.issuer.tls.keyPEM=issuer.key \
   cloud-native-demo
 ```
+
+## Quick Check
+
+```
+kubectl proxy
+
+```
+Web-Browser to: 
+
+* Bug Simulator: http://127.0.0.1:8001/api/v1/namespaces/cloud-native-demo/services/cloud-native-demo:80/proxy/
+* Emojivoto Web Frontend: http://127.0.0.1:8001/api/v1/namespaces/cloud-native-demo/services/cloud-native-demo-emojivoto-web-svc:80/proxy/

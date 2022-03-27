@@ -4,11 +4,18 @@
 
 replicaCount: 1
 
+namespace:
+  create: true
+  name: cloud-native-demo
+
+linkerd:
+  inject: enabled
+  
 image:
   repository: ghcr.io/cypherfox/cloud-native-demo/bugsim
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v0.1.0-rc9"
+  tag: "v0.1.0-rc10"
 
 imagePullSecrets: []
 nameOverride: ""

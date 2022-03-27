@@ -10,7 +10,7 @@ namespace:
 
 linkerd:
   inject: enabled
-  
+
 image:
   repository: ghcr.io/cypherfox/cloud-native-demo/bugsim
   pullPolicy: IfNotPresent

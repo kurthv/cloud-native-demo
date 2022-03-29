@@ -3,7 +3,7 @@ BUILD_PATH ?= $(shell pwd)
 TOOLS_DIR  ?= $(shell cd tools 2>/dev/null && pwd)
 
 
-VERSION    := 0.0.4-dev19
+VERSION    := 0.0.4-dev27
 TIME       := $(shell date)
 GO_MODULE  := github.com/cypherfox/cloud-native-demo
 GO_VERSION := 1.18

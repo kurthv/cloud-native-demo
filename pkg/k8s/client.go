@@ -84,3 +84,7 @@ func (kc *K8sClient) getDeploymentByName(name, namespace string) (*appsV1.Deploy
 	}
 	return nil, NotFoundErr
 }
+
+func (kc *K8sClient) DeletePod(name string, namespace string) error {
+	return kc.Client.CoreV1().Pods(namespace).Delete(context.TODO(), name, metaV1.DeleteOptions{})
+}

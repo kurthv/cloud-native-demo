@@ -40,6 +40,8 @@ spec:
             - "{{ .Values.target.namespace }}"
             - "--deployment"
             - "{{ .Values.target.deployment }}"
+            - "--success-rate"
+            - "{{ .Values.target.successRate }}"
           ports:
             - name: http
               containerPort: 80

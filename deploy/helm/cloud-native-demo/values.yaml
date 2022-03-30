@@ -91,6 +91,7 @@ affinity: {}
 target:
   namespace: cloud-native-demo
   deployment: web
+  successRate: 15
 
 emojivoto:
   namespace:

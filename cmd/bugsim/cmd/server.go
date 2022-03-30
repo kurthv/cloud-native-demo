@@ -7,6 +7,7 @@ package cmd
 import (
 	"fmt"
 	"html/template"
+	"math/rand"
 	"time"
 
 	"io"
@@ -21,12 +22,14 @@ import (
 	"github.com/cypherfox/cloud-native-demo/pkg/k8s"
 )
 
-var Port int16
+var Port uint16
 var k8sClient *k8s.K8sClient
 var Namespace string
 var Deployment string
+var SuccessRate uint8
 
-var templ *template.Template
+var root_templ *template.Template
+var failed_templ *template.Template
 var router *mux.Router
 
 const root_tpl = `
@@ -51,6 +54,19 @@ const root_tpl = `
 	</body>
 </html>`
 
+const failed_tpl = `
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Welcome to BugSim</title>
+	</head>
+	<body>
+	    <div>Dein niederträchtiger Angriff ist fehlgeschlagen!<p>Möchtest du noch einmal spielen?</div>
+		<div><p>Zurück zur <a href="/">Startseite</a></p></div>
+	</body>
+</html>`
+
 // serverCmd represents the server command
 var serverCmd = &cobra.Command{
 	Use:   "server",
@@ -71,24 +87,35 @@ var serverCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(serverCmd)
 
-	serverCmd.Flags().Int16VarP(&Port, "port", "p", 80, "port on which to listen for web requests")
+	serverCmd.Flags().Uint16VarP(&Port, "port", "p", 80, "Port on which to listen for web requests")
 	serverCmd.Flags().StringVarP(&Namespace, "namespace", "n", "default", "Namespace in which to look for pods.")
-	serverCmd.Flags().StringVarP(&Deployment, "deployment", "d", "web", "deployment from which to delete pods.")
+	serverCmd.Flags().StringVarP(&Deployment, "deployment", "d", "web", "Deployment from which to delete pods.")
+	serverCmd.Flags().Uint8VarP(&SuccessRate, "success-rate", "r", 15, "Success rate of the simulated bug attack on the pods in percent [1-100] (default are 15%")
 }
 
 func doServer() error {
 	var err error
 
+	if SuccessRate < 1 || SuccessRate > 100 {
+		fmt.Printf("Invalid success rate percentage: %d. Must be between 1 and 100")
+		return os.ErrInvalid
+	}
+
 	fmt.Println("Setting up Kubernetes Client")
 	k8sClient, err = k8s.NewKubeClient()
 	if err != nil {
 		fmt.Printf("Initializing Kubernetes client failed: %s", err.Error())
-		os.Exit(1)
+		return err
 	}
 
-	templ, err = template.New("rootPage").Parse(root_tpl)
+	root_templ, err = template.New("rootPage").Parse(root_tpl)
 	if err != nil {
 		fmt.Printf("Initializing root template failed: %s", err.Error())
+		return err
+	}
+	failed_templ, err = template.New("failedPage").Parse(failed_tpl)
+	if err != nil {
+		fmt.Printf("Initializing failed attack template failed: %s", err.Error())
 		return err
 	}
 
@@ -146,7 +173,7 @@ func rootPage(w http.ResponseWriter, r *http.Request) {
 		Items: podDataArr,
 	}
 
-	err = templ.Execute(w, data)
+	err = root_templ.Execute(w, data)
 	if err != nil {
 		fmt.Printf("generating root page from template failed: %s\n", err.Error())
 		return
@@ -165,6 +192,20 @@ func deleteSinglePod(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	podName := vars["id"]
 
+	// Cast a vote
+	probability := rand.Float32()
+	if probability > (float32(SuccessRate) / 100.0) {
+		data := struct{}{}
+
+		err := failed_templ.Execute(w, data)
+		if err != nil {
+			fmt.Printf("generating root page from template failed: %s\n", err.Error())
+		}
+
+		return
+	}
+
+	// vote was successful -> kill the pod
 	err := k8sClient.DeletePod(podName, Namespace)
 	if err != nil {
 		fmt.Printf("deleting pod %s failed: %s\n", podName, err.Error())

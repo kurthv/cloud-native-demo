@@ -97,7 +97,7 @@ func doServer() error {
 	var err error
 
 	if SuccessRate < 1 || SuccessRate > 100 {
-		fmt.Printf("Invalid success rate percentage: %d. Must be between 1 and 100")
+		fmt.Printf("Invalid success rate percentage: %d. Must be between 1 and 100", SuccessRate)
 		return os.ErrInvalid
 	}
 
@@ -157,7 +157,7 @@ func rootPage(w http.ResponseWriter, r *http.Request) {
 		podDataArr = append(podDataArr, podData{
 			Name:      pod.GetName(),
 			State:     statusMessage(pod),
-			AgeString: time.Now().Sub(pod.GetCreationTimestamp().Time).String(),
+			AgeString: time.Since(pod.GetCreationTimestamp().Time).String(),
 		})
 		fmt.Printf("%d: Setting %s to state %s, age %s",
 			len(podDataArr),

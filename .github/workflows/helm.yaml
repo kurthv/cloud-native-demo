@@ -7,17 +7,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       - name: Set up Helm
-        uses: azure/setup-helm@v1
+        uses: azure/setup-helm@v2.0
         with:
           version: v3.7.2
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: 3.7
 
@@ -32,6 +32,6 @@ jobs:
         uses: helm/kind-action@v1.2.0
         #if: steps.list-changed.outputs.changed == 'true'
 
-      - name: Run chart-testing (install)
-        run: ct install --charts /home/runner/work/cloud-native-demo/cloud-native-demo/deploy/helm/cloud-native-demo --chart-repos grafana=https://grafana.github.io/helm-charts --chart-repos linkerd=https://helm.linkerd.io/stable  --namespace cloud-native-demo
+#      - name: Run chart-testing (install)
+#        run: ct install --charts /home/runner/work/cloud-native-demo/cloud-native-demo/deploy/helm/cloud-native-demo --chart-repos grafana=https://grafana.github.io/helm-charts --chart-repos linkerd=https://helm.linkerd.io/stable  --namespace cloud-native-demo
 

@@ -3,7 +3,7 @@ BUILD_PATH ?= $(shell pwd)
 TOOLS_DIR  ?= $(shell cd tools 2>/dev/null && pwd)
 
 
-VERSION    := 0.0.4-dev15
+VERSION    := 0.0.4-dev28
 TIME       := $(shell date)
 GO_MODULE  := github.com/cypherfox/cloud-native-demo
 GO_VERSION := 1.18
@@ -32,12 +32,12 @@ helm-package:
 
 helm-deploy:
 	step certificate create root.linkerd.cluster.local ca.crt ca.key --profile root-ca \
-       --no-password --insecure
+       --no-password --insecure --force
 	step certificate create identity.linkerd.cluster.local issuer.crt issuer.key \
        --profile intermediate-ca --not-after 8760h --no-password --insecure \
-       --ca ca.crt --ca-key ca.key
+       --ca ca.crt --ca-key ca.key --force
 	helm upgrade cloud-native-demo ./deploy/helm/cloud-native-demo \
-      --install --namespace cloud-native-demo --create-namespace --devel \
+      --install --namespace cloud-native-demo --devel \
       --set-file linkerd2.identityTrustAnchorsPEM=ca.crt \
       --set-file linkerd2.identity.issuer.tls.crtPEM=issuer.crt \
       --set-file linkerd2.identity.issuer.tls.keyPEM=issuer.key
